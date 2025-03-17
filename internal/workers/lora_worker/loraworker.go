@@ -6,6 +6,7 @@ import (
 
 	"github.com/johandrevandeventer/kafkaclient/payload"
 	"github.com/johandrevandeventer/lora-worker/internal/workers"
+	milesightworker "github.com/johandrevandeventer/lora-worker/internal/workers/lora_worker/milesight"
 	"go.uber.org/zap"
 )
 
@@ -17,7 +18,7 @@ const (
 
 // Worker function mapping for gateways
 var gatewayWorkers = map[string]func(payload.Payload, *zap.Logger) (*workers.DataStruct, *workers.DataStruct, error){
-	// GatewayMileSight: milesightworker.MileSightWorker,
+	GatewayMileSight: milesightworker.MileSightWorker,
 }
 
 func LoraWorker(msg []byte, logger *zap.Logger) (rawDataStruct, processedDataStruct *workers.DataStruct, err error) {
