@@ -11,10 +11,10 @@ import (
 var ratioMap = map[string]float64{
 	"FreqIn":      0.01,
 	"Vin":         0.1,
-	"Iin":         0.01,
+	"Iin":         1,
 	"Pin":         0.001,
 	"Vout":        0.1,
-	"Iout":        0.01,
+	"Iout":        1,
 	"Pout":        0.001,
 	"BatV":        0.01,
 	"BatSOC":      1,
