@@ -12,7 +12,7 @@ import (
 )
 
 func (e *Engine) startWorker() {
-	e.logger.Info("Starting lORA workers")
+	e.logger.Info("Starting Lora workers")
 
 	var workersLogger *zap.Logger
 	var kafkaProducerLogger *zap.Logger
