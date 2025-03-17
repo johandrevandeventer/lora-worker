@@ -75,6 +75,8 @@ func MileSightWorker(msg payload.Payload, logger *zap.Logger) (*workers.DataStru
 			}
 		}
 
+		logger.Info(fmt.Sprintf("%s :: %s :: %s :: %s :: %s :: %s", device.Gateway, device.Site.Customer.Name, device.Site.Name, device.DeviceType, device.ControllerSerialNumber, device.DeviceSerialNumber))
+
 		switch controllerLower {
 		case ControllerTypeUC100:
 			rawData, processedData, err := uc100_decoder.UC100Decoder(mileSightData.UplinkMessage.DecodedPayload, device.DeviceType, logger)
@@ -92,6 +94,9 @@ func MileSightWorker(msg payload.Payload, logger *zap.Logger) (*workers.DataStru
 				continue
 			}
 
+			rawData["SerialNo1"] = device.ControllerSerialNumber
+			processedData["SerialNo1"] = device.ControllerSerialNumber
+
 			rawDataStruct = &workers.DataStruct{
 				State:                  "Pre",
 				CustomerID:             device.Site.Customer.ID,
@@ -104,7 +109,7 @@ func MileSightWorker(msg payload.Payload, logger *zap.Logger) (*workers.DataStru
 				ControllerSerialNumber: device.ControllerSerialNumber,
 				DeviceName:             device.DeviceName,
 				DeviceSerialNumber:     device.DeviceSerialNumber,
-				Data:                   processedData,
+				Data:                   rawData,
 				Timestamp:              timestamp,
 			}
 
