@@ -44,7 +44,12 @@ func (e *Engine) startKafkaConsumer() {
 	}
 
 	// Define Kafka consumer config
-	consumerConfig := config.NewKafkaConsumerConfig("localhost:9092", "rubicon_kafka_lora", "lora-consumer-group")
+	var consumerConfig *config.KafkaConsumerConfig
+	if flags.FlagEnvironment == "development" {
+		consumerConfig = config.NewKafkaConsumerConfig("localhost:9092", "rubicon_kafka_lora_development", "lora-development-consumer-group")
+	} else {
+		consumerConfig = config.NewKafkaConsumerConfig("localhost:9092", "rubicon_kafka_lora", "lora-consumer-group")
+	}
 
 	// Initialize Kafka Consumer Pool
 	kafkaConsumer, err := consumer.NewKafkaConsumer(e.ctx, consumerConfig, kafkaConsumerLogger)
