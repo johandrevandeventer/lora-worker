@@ -59,13 +59,6 @@ func (e *Engine) startKafkaConsumer() {
 
 	e.kafkaConsumer = kafkaConsumer
 
-	// // Start Prometheus Metrics Server
-	// e.wg.Add(1)
-	// go func() {
-	// 	defer e.wg.Done()
-	// 	prometheusserver.StartPrometheusServer(":2113", e.ctx)
-	// }()
-
 	// Start Kafka consumer
 	e.wg.Add(1)
 	go func() {
