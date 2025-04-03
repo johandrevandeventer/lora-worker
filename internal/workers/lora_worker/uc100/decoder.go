@@ -1,10 +1,14 @@
-package milesightworker
+package uc100
 
-import "time"
+import (
+	"encoding/json"
+	"fmt"
+	"time"
 
-// ==========================================MILESIGHT==================================================================
+	"github.com/johandrevandeventer/lora-worker/internal/workers/types"
+)
 
-type MileSightData struct {
+type UC100 struct {
 	EndDeviceIDs  EndDeviceIDs  `json:"end_device_ids"`
 	ReceivedAt    time.Time     `json:"received_at"`
 	UplinkMessage UplinkMessage `json:"uplink_message"`
@@ -74,4 +78,16 @@ type Lora struct {
 
 type NetworkIDs struct {
 	NetID string `json:"net_id"`
+}
+
+// Decoder processes Lora payloads
+func Decoder(payload json.RawMessage) (decodedPayloadInfo *types.DecodedPayloadInfo, err error) {
+	var data UC100
+	if err := json.Unmarshal(payload, &data); err != nil {
+		return decodedPayloadInfo, fmt.Errorf("failed to unmarshal payload: %w", err)
+	}
+
+	return &types.DecodedPayloadInfo{
+		RawPayload: payload,
+	}, nil
 }
